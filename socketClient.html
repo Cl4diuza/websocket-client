@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebSocket</title>
+    <script src="resources/sockjs-0.3.4.js"></script>
+    <script src="resources/stomp.js"></script>
+    <script type="text/javascript">
+        var stompClient = null; 
+        function setConnected(connected) {
+        }
+        function connect() {
+            var socket = new SockJS('http://10.44.10.133:30092/guru/api/websocket/socket');
+			stompClient = Stomp.over(socket);
+            stompClient.connect({}, function(frame) {
+                setConnected(true);
+                console.log('Connected: ' + frame);
+                stompClient.subscribe('/topic/notification/12', function(calResult){
+                	
+                });
+            });
+        }
+        function disconnect() {
+            stompClient.disconnect();
+            setConnected(false);
+            console.log("Disconnected");
+        }
+    </script>
+</head>
+<body>
+<h2>Websocket Connect</h2>
+<div>
+    <div>
+        <button id="connect" onclick="connect();">Connect</button>
+        <button id="disconnect" disabled="disabled" onclick="disconnect();">Disconnect</button><br/><br/>
+    </div>
+
+</div>
+</body>
+</html> 
